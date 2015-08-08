@@ -3,52 +3,64 @@
               [reagent.session :as session]
               [secretary.core :as secretary :include-macros true]
               [goog.events :as events]
-              [re-com.core :refer [h-box v-box box]]
+              [goog.history.EventType :as EventType]
+              [re-com.core :refer [h-box v-box box gap]]
               [re-com.buttons :refer [button]]
-              [goog.history.EventType :as EventType])
+              [re-com.misc :refer [input-text input-textarea radio-button]]
+              [ui.model :refer [app-state]]
+              [ui.common :refer [container]]
+              [ui.edit :refer [edit-page delete]])
     (:import goog.History))
 
 ;; -------------------------
 ;; Views
+; (comment (TODO: NICHOLAS preserve back button history better))
+(defn edit [index]
+  (let [url (str "#/edit/" index)]
+    (js/window.location.assign url)))
+
+;; Main Page
+(defn add-space! [space state]
+  (swap! app-state assoc-in [:spaces] (conj (:spaces @state) space)))
+
+;; TODO (Nicholas): Create new edit page, avoids the flash rerender
+(defn create-space! []
+  (add-space! {:name "" :creator "" :text "" :members []} app-state)
+  (edit (dec (count (:spaces @app-state)))))
 
 (defn space-title [name creator]
   [:span.title [:span.name name] [:span (str "created by " creator)]])
 
-(defn space-component [{:keys [name creator text]} space]
+(defn space-component [index {:keys [name creator text]} space]
   [v-box
     :class "space"
+    :align-self :stretch
     :children [[space-title name creator]
                [:p.text text]
                [h-box
                  :children [[button
                               :label "Edit"
                               :tooltip "Change this space"
-                              :tooltip-position :left-center
-                              :class "btn btn-default edit"]]
+                              :tooltip-position :above-center
+                              :on-click #(delete index)
+                              :class "btn-default edit"]
+                            [button
+                              :label "Delete"
+                              :tooltip "Delete this space"
+                              :tooltip-position :above-center
+                              :on-click #(delete index)
+                              :class "btn-danger edit"]]
                  :justify :end]]])
 
 (defn home-page []
-  [v-box
-    :align :center
-    :gap "20px"
-    :children [[:h1 "Altspace Spaces Admin"]
-              [space-component {:name    "Welcome Space"
-                                :creator "Admin Istrator"
-                                :text    "Welcome to Altspace! Use this space to get acquainted with the interface"}]
-              [space-component {:name    "Welcome Space"
-                                :creator "Admin Istrator"
-                                :text    "Welcome to Altspace! Use this space to get acquainted with the interface"}]
-              [space-component {:name    "Welcome Space"
-                                :creator "Admin Istrator"
-                                :text    "Welcome to Altspace! Use this space to get acquainted with the interface"}]
-              [h-box
-                :children [[button :label "Create"]]
-                :justify :end]
-              [:div [:a {:href "#/about"} "go to about page"]]]])
-
-(defn about-page []
-  [:div [:h2 "About ui"]
-   [:div [:a {:href "#/"} "go to the home page"]]])
+  [container "home-page"
+    [:h1 "Altspace Spaces Admin"]
+    (interpose [gap :size "10px"] (map-indexed space-component (:spaces @app-state)))
+    [gap :size "10px"]
+    [h-box
+      :align-self :end
+      :children
+        [[button :label "Create" :on-click create-space!]]]])
 
 (defn current-page []
   [:div [(session/get :current-page)]])
@@ -60,8 +72,9 @@
 (secretary/defroute "/" []
   (session/put! :current-page #'home-page))
 
-(secretary/defroute "/about" []
-  (session/put! :current-page #'about-page))
+(secretary/defroute "/edit/:id" {:as params}
+  (session/put! :current-space (:id params))
+  (session/put! :current-page #'edit-page))
 
 ;; -------------------------
 ;; History
