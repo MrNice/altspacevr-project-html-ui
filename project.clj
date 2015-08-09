@@ -1,5 +1,5 @@
 (defproject ui "0.1.0-SNAPSHOT"
-  :description "FIXME: write description"
+  :description "A toy user interface to prove to Altspace VR I can javascript"
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}

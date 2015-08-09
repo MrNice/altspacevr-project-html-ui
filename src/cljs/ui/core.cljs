@@ -25,24 +25,23 @@
 
 ;; TODO (Nicholas): Create new edit page, avoids the flash rerender
 (defn create-space! []
-  (add-space! {:name "" :creator "" :text "" :members []} app-state)
-  (edit (dec (count (:spaces @app-state)))))
+  (js/window.location.assign "#/create"))
 
-(defn space-title [name creator]
-  [:span.title [:span.name name] [:span (str "created by " creator)]])
+(defn space-title [title creator]
+  [:span.title [:span.name title] [:span (str "created by " creator)]])
 
-(defn space-component [index {:keys [name creator text]} space]
+(defn space-component [index {:keys [title creator text]} space]
   [v-box
     :class "space"
     :align-self :stretch
-    :children [[space-title name creator]
+    :children [[space-title title creator]
                [:p.text text]
                [h-box
                  :children [[button
                               :label "Edit"
                               :tooltip "Change this space"
                               :tooltip-position :above-center
-                              :on-click #(delete index)
+                              :on-click #(edit index)
                               :class "btn-default edit"]
                             [button
                               :label "Delete"
@@ -74,6 +73,11 @@
 
 (secretary/defroute "/edit/:id" {:as params}
   (session/put! :current-space (:id params))
+  (session/put! :current-page #'edit-page))
+
+(secretary/defroute "/create" []
+  ;; use -1 because nil is cast to 0
+  (session/put! :current-space -1)
   (session/put! :current-page #'edit-page))
 
 ;; -------------------------
