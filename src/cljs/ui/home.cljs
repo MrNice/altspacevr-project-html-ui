@@ -7,7 +7,7 @@
             [clojure.string :as s]
             [re-com.core    :refer [h-box v-box box gap md-circle-icon-button]]
             [re-com.buttons :refer [button]]
-            [ui.model  :refer [app-state add-space!]]
+            [ui.model  :refer [app-state add-space! get-member]]
             [ui.common :refer [container]]
             [ui.edit   :refer [delete]])
   (:import goog.History))
@@ -28,17 +28,20 @@
     ^{:key para} [:p para])])
 
 ;; Views
-(defn space-title [type title creator]
-  [:span {:class (str "title " type)} [:span.name title] [:span (str "created by " creator)]])
+(defn space-title [type title creatorid]
+  (let [creator (get-member creatorid)]
+    (js/console.log (pr-str creator))
+    [:span {:class (str "title " type)} [:span.name title] [:span (str "created by " creator)]]))
 
-(defn member-icon [name]
-  [:img {:alt name
-         :src (str "http://eightbitavatar.herokuapp.com/?id=" name "&s=male&size=48")}])
+(defn member-icon [id]
+  (let [member (get-member id)]
+    [:img {:alt name
+           :src (str "http://eightbitavatar.herokuapp.com/?id=" (:name member) "&s=" (:gender member) "&size=48")}]))
 
-(defn space-component [{:keys [id title creator text members type]} space]
+(defn space-component [{:keys [id title creatorid text members type]} space]
   [v-box :class (str "space " type) :align-self :stretch :children [
     (js/console.log id)
-    [space-title type title creator]
+    [space-title type title creatorid]
     [format-text text]
     [h-box :justify :between :children [
       [:div.icons [:span "Current Members: "] (map member-icon members)]

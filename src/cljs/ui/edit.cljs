@@ -5,7 +5,7 @@
             [re-com.core :refer [h-box v-box box gap md-circle-icon-button]]
             [re-com.buttons :refer [button]]
             [re-com.misc :refer [input-text input-textarea radio-button]]
-            [ui.model :refer [app-state add-space! remove-space!]]
+            [ui.model :refer [app-state add-space! remove-space! get-member]]
             [ui.common :refer [container]])
   (:import goog.History))
 
@@ -53,10 +53,10 @@
 
 ;; EDIT PAGE
 ;; NOTE: Keep 600px in alignment with cancel-save
-(defn edit-line [title value key]
+(defn edit-line [label value key]
   "An input-text with a label"
   [h-box :children [
-    [box :justify :end :size "1" :child [:span.descriptor title]]
+    [box :justify :end :size "1" :child [:span.descriptor label]]
     [box :size "6" :child
       [input-text :model value
                   :class "editor"
@@ -67,10 +67,29 @@
    removing empty entries"
    (s/split string #"[\n,]+"))
 
+(defn to-line [in-crowd index member]
+  (let [id (:id member)
+        selected (some #{id} in-crowd)]
+    [:div {:class (if (nil? selected) "selected" "")
+           ;; Hack to unset border-top for stylistic purposes
+           :style (if (= index 0) #js {:border-top-style "none"})}
+          (:name (get-member id))]))
+
+(defn member-selector [in-crowd]
+  "A member selection widget"
+  [:div.member-selector
+    (map-indexed (partial to-line in-crowd)
+                 (:members @app-state))])
+
+(defn member-select [label in-crowd]
+  [h-box :children [
+    [box :justify :end :size "1" :child [:span.descriptor label]]
+    [box :size "6" :class "member-select" :child [member-selector in-crowd]]]])
+
 (defn edit-box
-  [title value key rows & [sanitizer]]
+  [label value key rows & [sanitizer]]
     (h-box :children [
-      [box :justify :end :size "1" :child [:span.descriptor title]]
+      [box :justify :end :size "1" :child [:span.descriptor label]]
       [box :size "6" :child
         [input-textarea :model value :rows (if rows rows 3) :class "editor"
           :on-change #(set-space-value! key ((or sanitizer identity) %))]]]))
@@ -101,7 +120,8 @@
         [edit-line "Title" title :title]
         [edit-box "Description" text :text]
         [space-type-selector type]
-        [edit-box "Members" (apply str (interpose "\n" members)) :members (count members) member-sanitize]
+        ; [edit-box "Members" (apply str (interpose "\n" members)) :members (count members) member-sanitize]
+        [member-select "Members" members]
         [h-box :class "edit-delete-cancel-save" :justify :between :children [
           [:div.delete
             (if (> index -1)
