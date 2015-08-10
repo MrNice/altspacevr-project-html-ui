@@ -18,8 +18,8 @@
      (include-css "css/material-design-iconic-font.min.css")
      (include-css "css/bootstrap.css")
      (include-css "css/re-com.css")
-     (include-css "http://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic")
-     (include-css "http://fonts.googleapis.com/css?family=Roboto+Condensed:400,300")
+     (include-css "https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic")
+     (include-css "https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300")
      (include-css (if (env :dev) "css/site.css" "css/site.min.css"))]
     [:body
      [:div#app
