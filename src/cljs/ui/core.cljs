@@ -4,6 +4,7 @@
               [secretary.core :as secretary :include-macros true]
               [goog.events :as events]
               [goog.history.EventType :as EventType]
+              [clojure.string :as string]
               [re-com.core :refer [h-box v-box box gap]]
               [re-com.buttons :refer [button]]
               [re-com.misc :refer [input-text input-textarea radio-button]]
@@ -12,44 +13,48 @@
               [ui.edit :refer [edit-page delete]])
     (:import goog.History))
 
-;; -------------------------
-;; Views
-; (comment (TODO: NICHOLAS preserve back button history better))
+;; Main Page
+;; Actions
 (defn edit [index]
   (let [url (str "#/edit/" index)]
     (js/window.location.assign url)))
 
-;; Main Page
-(defn add-space! [space state]
-  (swap! app-state assoc-in [:spaces] (conj (:spaces @state) space)))
+(defn add-space! [space]
+  (swap! app-state assoc-in [:spaces] (conj (:spaces @app-state) space)))
 
-;; TODO (Nicholas): Create new edit page, avoids the flash rerender
 (defn create-space! []
   (js/window.location.assign "#/create"))
+
+;; -------------------------
+;; View Helpers
+(defn format-text [strng]
+  [:div.space-text
+    (for [para (string/split strng "\n")]
+    ^{:key para} [:p para])])
+
+;; Views
 
 (defn space-title [title creator]
   [:span.title [:span.name title] [:span (str "created by " creator)]])
 
 (defn space-component [index {:keys [title creator text]} space]
-  [v-box
-    :class "space"
-    :align-self :stretch
-    :children [[space-title title creator]
-               [:p.text text]
-               [h-box
-                 :children [[button
-                              :label "Edit"
-                              :tooltip "Change this space"
-                              :tooltip-position :above-center
-                              :on-click #(edit index)
-                              :class "btn-default edit"]
-                            [button
-                              :label "Delete"
-                              :tooltip "Delete this space"
-                              :tooltip-position :above-center
-                              :on-click #(delete index)
-                              :class "btn-danger edit"]]
-                 :justify :end]]])
+  [v-box :class "space" :align-self :stretch :children [
+    [space-title title creator]
+    [format-text text]
+    [h-box :children [
+      [button
+        :label "Edit"
+        :tooltip "Change this space"
+        :tooltip-position :above-center
+        :on-click #(edit index)
+        :class "btn-default edit"]
+      [button
+        :label "Delete"
+        :tooltip "Delete this space"
+        :tooltip-position :above-center
+        :on-click #(delete index)
+        :class "btn-danger edit"]]
+        :justify :end]]])
 
 (defn home-page []
   [container "home-page"
