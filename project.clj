@@ -37,7 +37,7 @@
   :main ui.server
 
   :less {:source-paths ["resources/public/less"]
-         :target-path "resources/public/css"}
+         :target-path   "resources/public/css"}
 
   :clean-targets ^{:protect false} [:target-path
                                     [:cljsbuild :builds :app :compiler :output-dir]
@@ -66,6 +66,7 @@
 
                    :source-paths ["env/dev/clj"]
                    :plugins [[lein-figwheel "0.3.7"]
+                             [lein-less "1.7.5"]
                              [lein-cljsbuild "1.0.6"]]
 
                    :injections [(require 'pjstadig.humane-test-output)

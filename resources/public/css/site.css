@@ -1,0 +1,135 @@
+body {
+  -webkit-font-smoothing: antialiased;
+  background-color: #000000;
+  color: #FFFFFF;
+  /* only matters for small displays */
+  margin: 0px 10px 0px 10px;
+}
+h1,
+h2,
+h3 {
+  color: #FFFFFF;
+}
+h1 {
+  font-size: 2.5em;
+  font-weight: 500;
+}
+h2 {
+  font-size: 2em;
+}
+h3 {
+  font-size: 1.5em;
+}
+a {
+  text-decoration: none;
+  color: #09f;
+}
+a:hover {
+  text-decoration: underline;
+}
+.container {
+  max-width: 1024px;
+  padding: 0px;
+}
+.icons img {
+  border-radius: 24px;
+  margin: 8px;
+  margin-right: 0px;
+}
+.icons span {
+  margin-left: 15px;
+  font-size: 16px;
+}
+.member-icon {
+  margin: 8px;
+}
+.descriptor {
+  font-weight: 600;
+  font-size: 16px;
+  margin-right: 20px;
+}
+.edit-delete-cancel-save .delete {
+  flex: 1;
+  color: #c80000;
+  border-color: #c80000;
+  border-width: 2px;
+}
+.edit-delete-cancel-save .aligner {
+  flex: 6;
+}
+.edit-delete-cancel-save .aligner .cancel-save {
+  max-width: 600px;
+  display: flex;
+  justify-content: flex-end;
+}
+.edit-delete-cancel-save .aligner .cancel-save .cancel {
+  border-width: 2px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.edit-delete-cancel-save .aligner .cancel-save .save {
+  color: #619df9;
+  border-color: #619df9;
+  border-width: 2px;
+}
+.create {
+  color: #16e443;
+  border-color: #16e443;
+  border-width: 2px;
+}
+.editor {
+  width: 600px;
+}
+.space {
+  border-width: thin;
+  border-style: solid;
+  border-radius: 3px;
+  border-color: #DDDDDD;
+  /** Button Classes **/
+}
+.space.featured {
+  border-color: #b56f06;
+}
+.space.welcome {
+  border-color: #6f9f1e;
+}
+.space.private {
+  border-color: #7a7a7a;
+}
+.space .title {
+  font-weight: 500;
+  padding: 10px;
+  padding-left: 15px;
+  color: #333333;
+  background-color: #FFFFFF;
+}
+.space .title.featured {
+  background-color: #ed930b;
+}
+.space .title.welcome {
+  background-color: #9ee42b;
+}
+.space .title.private {
+  background-color: #a7a7a7;
+}
+.space .title .name {
+  font-size: 16px;
+  padding-right: 5px;
+}
+.space .space-text {
+  padding: 15px;
+  margin: 0px;
+}
+.space .abtn {
+  margin: 15px;
+  margin-left: 0px;
+  display: inline-block;
+  border-width: 2px;
+}
+.space .abtn.edit {
+  color: #ffffff;
+}
+.space .abtn.delete {
+  color: #c80000;
+  border-color: #c80000;
+}
