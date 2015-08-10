@@ -4,67 +4,13 @@
               [secretary.core :as secretary :include-macros true]
               [goog.events :as events]
               [goog.history.EventType :as EventType]
-              [clojure.string :as string]
-              [re-com.core :refer [h-box v-box box gap]]
-              [re-com.buttons :refer [button]]
-              [re-com.misc :refer [input-text input-textarea radio-button]]
               [ui.model :refer [app-state]]
-              [ui.common :refer [container]]
-              [ui.edit :refer [edit-page delete]])
+              [ui.home :refer [home-page]]
+              [ui.edit :refer [edit-page]])
     (:import goog.History))
 
-;; Main Page
-;; Actions
-(defn edit [index]
-  (let [url (str "#/edit/" index)]
-    (js/window.location.assign url)))
-
-(defn add-space! [space]
-  (swap! app-state assoc-in [:spaces] (conj (:spaces @app-state) space)))
-
-(defn create-space! []
-  (js/window.location.assign "#/create"))
-
-;; -------------------------
-;; View Helpers
-(defn format-text [strng]
-  [:div.space-text
-    (for [para (string/split strng "\n")]
-    ^{:key para} [:p para])])
-
-;; Views
-
-(defn space-title [title creator]
-  [:span.title [:span.name title] [:span (str "created by " creator)]])
-
-(defn space-component [index {:keys [title creator text]} space]
-  [v-box :class "space" :align-self :stretch :children [
-    [space-title title creator]
-    [format-text text]
-    [h-box :children [
-      [button
-        :label "Edit"
-        :tooltip "Change this space"
-        :tooltip-position :above-center
-        :on-click #(edit index)
-        :class "btn-default edit"]
-      [button
-        :label "Delete"
-        :tooltip "Delete this space"
-        :tooltip-position :above-center
-        :on-click #(delete index)
-        :class "btn-danger edit"]]
-        :justify :end]]])
-
-(defn home-page []
-  [container "home-page"
-    [:h1 "Altspace Spaces Admin"]
-    (interpose [gap :size "10px"] (map-indexed space-component (:spaces @app-state)))
-    [gap :size "10px"]
-    [h-box
-      :align-self :end
-      :children
-        [[button :label "Create" :on-click create-space!]]]])
+;; (TODO: Nicholas): Add user manangement & protect routes with auth
+(session/put! :current-user "Nicholas van de Walle")
 
 (defn current-page []
   [:div [(session/get :current-page)]])
@@ -76,13 +22,17 @@
 (secretary/defroute "/" []
   (session/put! :current-page #'home-page))
 
+;; TODO (Nicholas): stop using current-index as a boolean flag
 (secretary/defroute "/edit/:id" {:as params}
-  (session/put! :current-space (:id params))
+  (session/put! :current-space (first
+                                 (filter #(= (int (:id params)) (:id %))
+                                          (:spaces @app-state))))
+  (session/put! :current-index 0)
   (session/put! :current-page #'edit-page))
 
 (secretary/defroute "/create" []
   ;; use -1 because nil is cast to 0
-  (session/put! :current-space -1)
+  (session/put! :current-index -1)
   (session/put! :current-page #'edit-page))
 
 ;; -------------------------

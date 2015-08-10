@@ -36,6 +36,16 @@ a:hover {
   max-width: 1024px;
   padding: 0px;
 }
+.icons {
+  img { margin: 8px }
+  span {
+    margin-left: 15px;
+    font-size: 16px;
+  }
+}
+.member-icon {
+  margin: 8px;
+}
 
 .descriptor {
   font-weight: 600;
@@ -45,7 +55,6 @@ a:hover {
 
 .edit-delete-cancel-save {
   .delete { flex: 1 }
-
   .aligner {
     flex: 6;
     .cancel-save {
@@ -62,16 +71,22 @@ a:hover {
 
 .space {
   border-width: thin;
-  border-color: #DDDDDD;
-  border-radius: 3px;
   border-style: solid;
+  border-radius: 3px;
+  border-color: #DDDDDD;
+  &.featured { border-color: rgb(181, 111, 6) }
+  &.welcome  { border-color: rgb(111, 159, 30) }
+  &.private  { border-color: rgb(122, 122, 122) }
 
   .title {
+    font-weight: 500;
     padding: 10px;
     padding-left: 15px;
-    background-color: #FFFFFF;
     color: rgb(51, 51, 51);
-    font-weight: 500;
+    background-color: #FFFFFF;
+    &.featured { background-color: rgb(237, 147, 11) }
+    &.welcome  { background-color: rgb(158, 228, 43) }
+    &.private  { background-color: rgb(167, 167, 167) }
 
     .name {
       font-size: 16px;
