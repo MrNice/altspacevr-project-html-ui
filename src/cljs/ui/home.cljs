@@ -5,7 +5,7 @@
             [goog.events :as events]
             [goog.history.EventType :as EventType]
             [clojure.string :as s]
-            [re-com.core    :refer [h-box v-box box gap]]
+            [re-com.core    :refer [h-box v-box box gap md-circle-icon-button]]
             [re-com.buttons :refer [button]]
             [ui.model  :refer [app-state add-space!]]
             [ui.common :refer [container]]
@@ -43,14 +43,15 @@
     [h-box :justify :between :children [
       [:div.icons [:span "Current Members: "] (map member-icon members)]
       [:div
-        [button
-          :label "Delete"
+        [md-circle-icon-button
+          :md-icon-name "md-delete"
           :on-click #(delete id)
-          :class "btn-danger edit"]
-        [button
-          :label "Edit"
+          :class "abtn delete"]
+        [md-circle-icon-button
+          :md-icon-name "md-edit"
+          :size :larger
           :on-click #(edit id)
-          :class "btn-default edit"]]]]]])
+          :class "abtn edit"]]]]]])
 
 (defn space-weight [space]
   (let [{:keys [type]} space]
@@ -65,7 +66,5 @@
     [:h1 "Altspace Spaces Admin"]
     (interpose [gap :size "10px"] (map space-component (sort-spaces (:spaces @app-state))))
     [gap :size "10px"]
-    [h-box
-      :align-self :end
-      :children
-        [[button :label "Create" :on-click create]]]])
+    [h-box :align-self :end :children [
+      [md-circle-icon-button :md-icon-name "md-add" :size :larger :on-click create :class "create"]]]])

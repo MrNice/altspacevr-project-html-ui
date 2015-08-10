@@ -2,7 +2,7 @@
   (:require [reagent.core :as reagent :refer [atom]]
             [reagent.session :as session]
             [clojure.string :as s]
-            [re-com.core :refer [h-box v-box box gap]]
+            [re-com.core :refer [h-box v-box box gap md-circle-icon-button]]
             [re-com.buttons :refer [button]]
             [re-com.misc :refer [input-text input-textarea radio-button]]
             [ui.model :refer [app-state add-space! remove-space!]]
@@ -59,7 +59,7 @@
     [box :justify :end :size "1" :child [:span.descriptor title]]
     [box :size "6" :child
       [input-text :model value
-                  :width "600px"
+                  :class "editor"
                   :on-change #(set-space-value! key %)]]]])
 
 (defn member-sanitize [string]
@@ -72,7 +72,7 @@
     (h-box :children [
       [box :justify :end :size "1" :child [:span.descriptor title]]
       [box :size "6" :child
-        [input-textarea :model value :rows (if rows rows 3) :width "600px"
+        [input-textarea :model value :rows (if rows rows 3) :class "editor"
           :on-change #(set-space-value! key ((or sanitizer identity) %))]]]))
 
 (defn space-type [value t]
@@ -90,7 +90,7 @@
 (defn edit-page []
   ;; TODO (Nicholas): Clean-up this let block
   (let [index (session/get :current-index)
-        space (if (= index -1) {:title "" :creator (session/get :current-user) :text "" :members [] :type "standard"}
+        space (if (= index -1) {:title "" :creator (session/get :current-user) :text "" :members [(session/get :current-user)] :type "standard"}
                                (session/get :current-space))]
     (reset! current space)
     (let [{:keys [id title creator text members type]} space]
@@ -103,8 +103,10 @@
         [space-type-selector type]
         [edit-box "Members" (apply str (interpose "\n" members)) :members (count members) member-sanitize]
         [h-box :class "edit-delete-cancel-save" :justify :between :children [
-          [:div.delete (if (> index -1) [button :label "Delete" :on-click #(delete id) :class "btn-danger"])]
+          [:div.delete
+            (if (> index -1)
+              [md-circle-icon-button :md-icon-name "md-delete" :size :larger :on-click #(delete id) :class "delete"])]
           [:div.aligner
             [:div.cancel-save
-              [button :label "Cancel" :on-click cancel       :class "btn-default cancel"]
-              [button :label "Save"   :on-click #(save id)   :class "btn-primary"]]]]]])])))
+              [md-circle-icon-button :md-icon-name "md-cancel" :size :larger :on-click cancel       :class "cancel"]
+              [md-circle-icon-button :md-icon-name "md-save"   :size :larger :on-click #(save id)   :class "save"]]]]]])])))

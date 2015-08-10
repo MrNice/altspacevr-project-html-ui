@@ -1,3 +1,6 @@
+@WIDTH: 600px;
+@BUTTON_BORDER: 2px;
+
 body {
   -webkit-font-smoothing: antialiased;
   background-color: #000000;
@@ -54,19 +57,40 @@ a:hover {
 }
 
 .edit-delete-cancel-save {
-  .delete { flex: 1 }
+  .delete {
+    flex: 1;
+    color: rgb(200,0,0);
+    border-color: rgb(200,0,0);
+    border-width: @BUTTON_BORDER;
+  }
   .aligner {
     flex: 6;
     .cancel-save {
-      max-width: 600px;
+      max-width: @WIDTH;
       display: flex;
       justify-content: flex-end;
       .cancel {
+        border-width: @BUTTON_BORDER;
         margin-left: 10px;
         margin-right: 10px;
       }
+      .save {
+        color: rgb(97, 157, 249);
+        border-color: rgb(97, 157, 249);
+        border-width: @BUTTON_BORDER;
+      }
     }
   }
+}
+
+.create {
+  color: rgb(22, 228, 67);
+  border-color: rgb(22, 228, 67);
+  border-width: @BUTTON_BORDER;
+}
+
+.editor {
+  width: @WIDTH;
 }
 
 .space {
@@ -99,8 +123,20 @@ a:hover {
     margin: 0px;
   }
 
-  .edit {
+  /** Button Classes **/
+  .abtn {
     margin: 15px;
     margin-left: 0px;
+    display: inline-block;
+    border-width: @BUTTON_BORDER;
+    border-width: @BUTTON_BORDER;
+    &.edit {
+      color: #ffffff;
+    }
+
+    &.delete {
+      color: rgb(200,0,0);
+      border-color: rgb(200,0,0);
+    }
   }
 }
