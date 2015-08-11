@@ -59,7 +59,6 @@
 
 (defn auth [id]
   "Is this member an administrator?"
-  (js/console.log (:admin (get-member id)))
   (:admin (get-member id)))
 
 ;; Constructors

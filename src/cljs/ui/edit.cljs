@@ -69,7 +69,7 @@
       [box :justify :end :size "1" :child [:span.descriptor label]]
       [box :size "6" :child
         [input-textarea :model value :rows (if rows rows 3) :class "editor"
-          :on-change #(set-space-value! key ((or sanitizer identity) %))]]]))
+          :on-change #/conso(set-space-value! key ((or sanitizer identity) %))]]]))
 
 (defn space-type [value t]
   (radio-button :model t :label (s/capitalize t) :value value :on-change #(set-space-value! :type t)))
@@ -78,7 +78,7 @@
   (let [value (:type @current)]
     [h-box :children
      [[box   :size "1" :child [:div]]
-     [v-box :size "6" :children
+      [v-box :size "6" :children
         (interpose [gap :size "15px"]
           (map (partial space-type value) ["welcome" "featured" "standard" "private"]))]]]))
 
