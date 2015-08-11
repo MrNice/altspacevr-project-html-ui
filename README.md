@@ -32,6 +32,8 @@ ClojureScript made it very easy to separate concerns into views, actions, stores
 
 If language choice is problematic, I'll redo this project with rx-flux.
 
+*Aside: another reason to try ClojureScript is John Carmack is toying with building Oculus Rift tooling with Racket, which is a similar Lisp dialect. Specifically, Carmack is interested in racket scripting with game engines, so that game developers can have a rapid iteration cycle similar to what figwheel does for ClojureScript*
+
 ## Tech Stack
 * [Re-com](http://re-demo.s3-website-ap-southeast-2.amazonaws.com/) - Flexbox powered SPA framework for Reagent. Easy layouts & components.
 * [Reagent](https://reagent-project.github.io/) - Reactive Hiccup -> React adapter. Hiccup just turns nested arrays into HTML.
