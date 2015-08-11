@@ -34,9 +34,13 @@
             {:id 4 :name "Dana"                  :admin false :gender "female"}
             {:id 5 :name "Spock"                 :admin false :gender "male"}
             {:id 6 :name "Uhura"                 :admin false :gender "female"}
-            {:id 7 :name "Kirk"                  :admin false :gender "male"}
+            {:id 7 :name "Kirk"                  :admin true  :gender "male"}
             {:id 8 :name "Scottie"               :admin false :gender "male"}
             {:id 9 :name "Matt Jeffries"         :admin true  :gender "male"}]}))
+
+;; Queries
+(defn get-member [id]
+  (first (filter #(= id (:id %)) (:members @app-state))))
 
 ;; Helpers
 (defn positions
@@ -52,6 +56,11 @@
 (defn gen-space-id [spaces]
   "Give us the next available space ID"
   (inc (apply max (map :id spaces))))
+
+(defn auth [id]
+  "Is this member an administrator?"
+  (js/console.log (:admin (get-member id)))
+  (:admin (get-member id)))
 
 ;; Constructors
 (defn make-space []
@@ -80,7 +89,3 @@
 (defn remove-space! [id]
   "filter the space out by id"
   (swap! app-state assoc-in [:spaces] (filterv #(not= id (:id %)) (:spaces @app-state))))
-
-;; Queries
-(defn get-member [id]
-  (first (filter #(= id (:id %)) (:members @app-state))))

@@ -94,11 +94,12 @@
         [edit-box "Description" text :text]
         [space-type-selector type]
         [member-selector "Members"]
-        [h-box :class "edit-delete-cancel-save" :justify :between :children [
-          [:div.delete
-            (if-not creating
-              [md-circle-icon-button :md-icon-name "md-delete" :size :larger :on-click #(delete id) :class "delete"])]
-          [:div.aligner
-            [:div.cancel-save
-              [md-circle-icon-button :md-icon-name "md-cancel" :size :larger :on-click cancel       :class "cancel"]
-              [md-circle-icon-button :md-icon-name "md-save"   :size :larger :on-click #(save id)   :class "save"]]]]]])])))
+        (if (md/auth (session/get :current-user))
+          [h-box :class "edit-delete-cancel-save" :justify :between :children [
+            [:div.delete
+              (if-not creating
+                [md-circle-icon-button :md-icon-name "md-delete" :size :larger :on-click #(delete id) :class "delete"])]
+            [:div.aligner
+              [:div.cancel-save
+                [md-circle-icon-button :md-icon-name "md-cancel" :size :larger :on-click cancel     :class "cancel"]
+                [md-circle-icon-button :md-icon-name "md-save"   :size :larger :on-click #(save id) :class "save"]]]]])])])))
