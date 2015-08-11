@@ -64,21 +64,6 @@
                   :class "editor"
                   :on-change #(set-space-value! key %)]]]])
 
-;; *********************** REPLACING ************************/
-(defn member-sanitize [string]
-  "Splits members string on newlines, commas, and spaces
-   removing empty entries"
-   (s/split string #"[\n,]+"))
-
-(defn to-line [in-crowd index member]
-  (let [id (:id member)
-        selected (some #{id} in-crowd)]
-    [:div {:class (if (nil? selected) "selected" "")
-           ;; Hack to unset border-top for stylistic purposes
-           :style (if (= index 0) #js {:border-top-style "none"})}
-          (:name (get-member id))]))
-
-;; *******^^^^^^********** REPLACING ***********^^^^^^*******/
 (defn member-selector [label]
   [h-box :children [
     [box :justify :end :size "1" :child [:span.descriptor label]]
