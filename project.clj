@@ -57,10 +57,10 @@
   :profiles {:dev {:repl-options {:init-ns ui.repl
                                   :nrepl-middleware []}
 
-                   :dependencies [[ring/ring-mock "0.2.0"]
+                   :dependencies [[lein-less "1.7.5"]
+                                  [ring/ring-mock "0.2.0"]
                                   [ring/ring-devel "1.4.0"]
                                   [lein-figwheel "0.3.7"]
-                                  [lein-less "1.7.5"]
                                   [org.clojure/tools.nrepl "0.2.10"]
                                   [pjstadig/humane-test-output "0.7.0"]]
 
@@ -85,7 +85,7 @@
 }
 }}
 
-             :uberjar {:hooks [leiningen.less leiningen.cljsbuild minify-assets.plugin/hooks]
+             :uberjar {:hooks [leiningen.cljsbuild minify-assets.plugin/hooks leiningen.less]
                        :env {:production true}
                        :aot :all
                        :omit-source true
