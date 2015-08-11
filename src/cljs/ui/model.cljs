@@ -1,8 +1,7 @@
 (ns ui.model
-  (:require [reagent.core :refer [atom]]))
+  (:require [reagent.core :refer [atom]]
+            [reagent.session :as session]))
 
-;; TODO (Nicholas) update members to use member IDs instead
-;; Store member data in its own model atom
 (defonce app-state (atom
  {:spaces [{:title   "Welcome Space"
             :id      0
@@ -39,12 +38,44 @@
             {:id 8 :name "Scottie"               :admin false :gender "male"}
             {:id 9 :name "Matt Jeffries"         :admin true  :gender "male"}]}))
 
+;; Helpers
+(defn positions
+  "Finds the current indexes of items in a collection which
+   pass a predicate. Used to locate spaces for updating"
+  [pred coll]
+  (keep-indexed (fn [idx x]
+                  (when (pred x)
+                    idx))
+                coll))
+
+;; TODO (Nicholas): cache this value, have it only be computed once
+(defn gen-space-id [spaces]
+  "Give us the next available space ID"
+  (inc (apply max (map :id spaces))))
+
+;; Constructors
+(defn make-space []
+ {:id (inc (apply max (map :id (:spaces @app-state))))
+  :text ""
+  :title ""
+  :members []
+  :type "standard"
+  :creator (session/get :current-user)})
+
 ;; Mutations
 (defn add-space! [space]
   "Add an ID 1 higher than the current max space id,
    and put it at the end of :spaces"
-  (let [to-save (assoc space :id (inc (apply max (map :id (:spaces @app-state)))))]
+  (let [to-save (assoc space :id (gen-space-id (:spaces @app-state)))]
     (swap! app-state assoc-in [:spaces] (conj (:spaces @app-state) to-save))))
+
+(defn update-space! [space]
+  "Saves the current temp space into the DB atom
+   Beware of this tight coupling, uses current index
+   as well as the ID. Consider turning :spaces into a
+   map instead of a vector"
+  (let [index (first (positions #(= (:id space) (:id %)) (:spaces @app-state)))]
+    (swap! app-state update-in [:spaces index] #(merge % space))))
 
 (defn remove-space! [id]
   "filter the space out by id"

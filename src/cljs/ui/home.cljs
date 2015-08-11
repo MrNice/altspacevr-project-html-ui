@@ -1,27 +1,19 @@
 (ns ui.home
-  (:require [reagent.core :as reagent :refer [atom]]
-            [reagent.session :as session]
-            [secretary.core  :as secretary :include-macros true]
-            [goog.events :as events]
-            [goog.history.EventType :as EventType]
+  (:require [reagent.core :refer [atom]]
             [clojure.string :as s]
             [re-com.core    :refer [h-box v-box box gap md-circle-icon-button]]
-            [re-com.buttons :refer [button]]
-            [ui.model  :refer [app-state add-space! get-member]]
+            [ui.model :as md :refer [app-state]]
             [ui.common :refer [container]]
-            [ui.edit   :refer [delete]])
-  (:import goog.History))
+            [ui.edit   :refer [delete]]))
 
 ;; Actions
 (defn edit [id]
-  (js/console.log "This is the ID that edit sees inside home" id)
   (let [url (str "#/edit/" id)]
     (js/window.location.assign url)))
 
 (defn create []
   (js/window.location.assign "#/create"))
 
-;; -------------------------
 ;; View Helpers
 (defn format-text [string]
   [:div.space-text
@@ -29,6 +21,8 @@
     ^{:key para} [:p para])])
 
 (defn space-weight [space]
+  "Control how spaces are sorted, based on type
+   Welcome > Featured > Else"
   (let [{:keys [type]} space]
     (cond (= "welcome" type) 0
           (= "featured" type) 1
@@ -36,19 +30,18 @@
 
 (def sort-spaces (partial sort-by space-weight))
 
-;; Views & Sub-views
+;; Views
 (defn member-icon [id]
-  (let [member (get-member id)]
+  (let [member (md/get-member id)]
     [:img {:alt name
            :src (str "http://eightbitavatar.herokuapp.com/?id=" (:name member) "&s=" (:gender member) "&size=48")}]))
 
 (defn space-title [type title creatorid]
-  (let [creator (:name (get-member creatorid))]
+  (let [creator (:name (md/get-member creatorid))]
     [:span {:class (str "title " type)} [:span.name title] [:span (str "created by " creator)]]))
 
 (defn space-component [{:keys [id title creator text members type]} space]
   [v-box :class (str "space " type) :align-self :stretch :children [
-    (js/console.log id creator)
     [space-title type title creator]
     [format-text text]
     [h-box :justify :between :children [
@@ -60,9 +53,9 @@
           :class "abtn delete"]
         [md-circle-icon-button
           :md-icon-name "md-edit"
-          :size :larger
           :on-click #(edit id)
-          :class "abtn edit"]]]]]])
+          :class "abtn edit"
+          :size :larger]]]]]])
 
 (defn home-page []
   [container "home-page"
