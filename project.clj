@@ -18,7 +18,7 @@
                  [compojure "1.4.0"]
                  [hiccup "1.0.5"]
                  [environ "1.0.0"]
-                 [re-com "0.5.4"]
+                 [re-com "0.6.0-SNAPSHOT"]
                  [re-frame "0.4.1"]
                  [org.clojure/clojurescript "0.0-3308" :scope "provided"]
                  [secretary "1.2.3"]]

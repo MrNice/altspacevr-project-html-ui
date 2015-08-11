@@ -48,25 +48,13 @@ a:hover {
   font-size: 16px;
   margin-right: 20px;
 }
-.member-select {
-  border-color: #ffffff;
+.member-selector {
+  color: #000;
+  border-color: red;
   border-style: solid;
-  border-width: thin;
-  border-radius: 3px;
 }
-.member-select .member-selector {
-  width: 100%;
-  font-size: 16px;
-}
-.member-select .member-selector div {
-  border-width: thin;
-  line-height: 40px;
-  border-top-style: solid;
-  padding-left: 15px;
-}
-.member-select .member-selector .selected {
-  background-color: #656565;
-  font-weight: 600;
+.list-group-item {
+  color: #000;
 }
 .edit-delete-cancel-save .delete {
   flex: 1;

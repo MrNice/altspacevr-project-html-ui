@@ -2,7 +2,7 @@
   (:require [reagent.core :as reagent :refer [atom]]
             [reagent.session :as session]
             [clojure.string :as s]
-            [re-com.core :refer [h-box v-box box gap md-circle-icon-button]]
+            [re-com.core :refer [h-box v-box box gap selection-list md-circle-icon-button]]
             [re-com.buttons :refer [button]]
             [re-com.misc :refer [input-text input-textarea radio-button]]
             [ui.model :refer [app-state add-space! remove-space! get-member]]
@@ -11,6 +11,7 @@
 
 ;; Because this state is local, do not store within model.cljs
 (defonce current (atom {:title "" :creator (session/get :current-user) :text "" :members [] :type "standard"}))
+(defonce current-members (atom #{}))
 
 (defn positions
   [pred coll]
@@ -33,11 +34,12 @@
   (swap! current assoc-in [key] value))
 
 ;; Actions
-(defn save [index]
+(defn save [id]
   "Also known as update or add"
-  (if (> index -1)
-    (update-space!)
-    (add-space! @current))
+  (swap! current #(assoc % :members @current-members))
+  (if (> id (apply max (map :id (:spaces @app-state))))
+    (add-space! @current)
+    (update-space!))
   (js/window.location.assign "#/"))
 
 (defn cancel []
@@ -62,6 +64,7 @@
                   :class "editor"
                   :on-change #(set-space-value! key %)]]]])
 
+;; *********************** REPLACING ************************/
 (defn member-sanitize [string]
   "Splits members string on newlines, commas, and spaces
    removing empty entries"
@@ -75,16 +78,17 @@
            :style (if (= index 0) #js {:border-top-style "none"})}
           (:name (get-member id))]))
 
-(defn member-selector [in-crowd]
-  "A member selection widget"
-  [:div.member-selector
-    (map-indexed (partial to-line in-crowd)
-                 (:members @app-state))])
-
-(defn member-select [label in-crowd]
+;; *******^^^^^^********** REPLACING ***********^^^^^^*******/
+(defn member-selector [label]
   [h-box :children [
     [box :justify :end :size "1" :child [:span.descriptor label]]
-    [box :size "6" :class "member-select" :child [member-selector in-crowd]]]])
+    [box :size "6" :class "member-selector"  :child
+      [selection-list :model current-members
+                      :choices (filter #(not= 0 (:id %)) (:members @app-state))
+                      :label-fn #(:name %)
+                      :width "600px"
+                      :hide-border? true
+                      :on-change #(reset! current-members %)]]]])
 
 (defn edit-box
   [label value key rows & [sanitizer]]
@@ -109,19 +113,23 @@
 (defn edit-page []
   ;; TODO (Nicholas): Clean-up this let block
   (let [index (session/get :current-index)
-        space (if (= index -1) {:title "" :creator (session/get :current-user) :text "" :members [(session/get :current-user)] :type "standard"}
+        space (if (= index -1) {:id (inc (apply max (map :id (:spaces @app-state))))
+                                :title ""
+                                :creator (session/get :current-user)
+                                :text ""
+                                :members []
+                                :type "standard"}
                                (session/get :current-space))]
     (reset! current space)
+    (reset! current-members (set (:members space)))
     (let [{:keys [id title creator text members type]} space]
-      (js/console.log (pr-str id title creator text members type))
       [container "edit-page"
        (interpose [gap :size "20px"] [
         [:h1 (str "Altspace Spaces Admin - " (if-not (= title "") title "New Space"))]
         [edit-line "Title" title :title]
         [edit-box "Description" text :text]
         [space-type-selector type]
-        ; [edit-box "Members" (apply str (interpose "\n" members)) :members (count members) member-sanitize]
-        [member-select "Members" members]
+        [member-selector]
         [h-box :class "edit-delete-cancel-save" :justify :between :children [
           [:div.delete
             (if (> index -1)

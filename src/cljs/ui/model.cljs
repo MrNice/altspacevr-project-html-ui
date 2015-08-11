@@ -43,7 +43,7 @@
 (defn add-space! [space]
   "Add an ID 1 higher than the current max space id,
    and put it at the end of :spaces"
-  (let [to-save (assoc space :id (inc (max (map :id (:spaces @app-state)))))]
+  (let [to-save (assoc space :id (inc (apply max (map :id (:spaces @app-state)))))]
     (swap! app-state assoc-in [:spaces] (conj (:spaces @app-state) to-save))))
 
 (defn remove-space! [id]

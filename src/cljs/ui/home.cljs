@@ -14,6 +14,7 @@
 
 ;; Actions
 (defn edit [id]
+  (js/console.log "This is the ID that edit sees inside home" id)
   (let [url (str "#/edit/" id)]
     (js/window.location.assign url)))
 
@@ -27,21 +28,28 @@
     (for [para (s/split string "\n")]
     ^{:key para} [:p para])])
 
-;; Views
-(defn space-title [type title creatorid]
-  (let [creator (get-member creatorid)]
-    (js/console.log (pr-str creator))
-    [:span {:class (str "title " type)} [:span.name title] [:span (str "created by " creator)]]))
+(defn space-weight [space]
+  (let [{:keys [type]} space]
+    (cond (= "welcome" type) 0
+          (= "featured" type) 1
+          :else 2)))
 
+(def sort-spaces (partial sort-by space-weight))
+
+;; Views & Sub-views
 (defn member-icon [id]
   (let [member (get-member id)]
     [:img {:alt name
            :src (str "http://eightbitavatar.herokuapp.com/?id=" (:name member) "&s=" (:gender member) "&size=48")}]))
 
-(defn space-component [{:keys [id title creatorid text members type]} space]
+(defn space-title [type title creatorid]
+  (let [creator (:name (get-member creatorid))]
+    [:span {:class (str "title " type)} [:span.name title] [:span (str "created by " creator)]]))
+
+(defn space-component [{:keys [id title creator text members type]} space]
   [v-box :class (str "space " type) :align-self :stretch :children [
-    (js/console.log id)
-    [space-title type title creatorid]
+    (js/console.log id creator)
+    [space-title type title creator]
     [format-text text]
     [h-box :justify :between :children [
       [:div.icons [:span "Current Members: "] (map member-icon members)]
@@ -55,14 +63,6 @@
           :size :larger
           :on-click #(edit id)
           :class "abtn edit"]]]]]])
-
-(defn space-weight [space]
-  (let [{:keys [type]} space]
-    (cond (= "welcome" type) 0
-          (= "featured" type) 1
-          :else 2)))
-
-(def sort-spaces (partial sort-by space-weight))
 
 (defn home-page []
   [container "home-page"
