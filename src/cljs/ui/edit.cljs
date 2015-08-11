@@ -85,7 +85,7 @@
 (defn edit-page []
   (let [creating (session/get :creating)
         space (if creating (md/make-space) (session/get :current-space))]
-    (reset-local-space!)
+    (reset-local-space! space)
     (let [{:keys [id title creator text members type]} space]
       [container "edit-page"
        (interpose [gap :size "20px"] [
