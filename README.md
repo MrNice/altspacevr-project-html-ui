@@ -9,9 +9,11 @@ The JS file ends up being ~450kB.
 2. In the repo's root, do `lein do clean, figwheel`
 3. Turn on a lava lamp and wait for it to bubble. Lein should be finished bootstrapping.
 4. Open localhost:3449. Your terminal will have a repl into the running application.
+
 **Optional**
 5. Type: `(in-ns 'ui.model)` followed by `@app-state` to see the app's state
 6. Then type: `(remove-space! 0)` and watch the interface update instantly!!
+
 **To notice authentication**
 7. `(in-ns 'ui.core)` then `(session/put! :current-user 4)`. You can no longer edit things, and errors are logged.
 8. `(session/put! :current-user 9)` then create a space. Note who made that space.
@@ -29,16 +31,21 @@ If language choice is problematic, I'll redo this project with rx-flux.
 
 ## Tech Stack
 [Re-com](http://re-demo.s3-website-ap-southeast-2.amazonaws.com/) - Flexbox powered SPA framework for Reagent. Easy layouts & components.
+
 [Reagent](https://reagent-project.github.io/) - Reactive Hiccup -> React adapter. Hiccup just turns nested arrays into HTML.
+
 [React](http://facebook.github.io/react/) - View layer framework from Facebook, pairs nicely with CLJS immutable data
+
 [Secretary](https://github.com/gf3/secretary) - Macro based routing for ClojureScript.
 
 ### Development
 [Figwheel](https://github.com/bhauman/lein-figwheel) - Automatically reload code changes
+
 [Lein-LESS](https://github.com/montoux/lein-less) - Automatically compile LESS stylesheets into css
 
 ### Deployment
 Uberjar - Builds Clojure server & ClojureScript client
+
 [Heroku](https://www.heroku.com/) - Hosts for free!
 
 ## Caveats
