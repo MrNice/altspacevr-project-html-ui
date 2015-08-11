@@ -1,7 +1,10 @@
 # AltspaceVR Programing Project - Spaces Admin Web Frontend... in ClojureScript
-Hey Altspace Team! I chose to stay inside my comfort zone and build a "futuristic"
-HTML 5 administration app. [You can see it live](https://fierce-earth-2877.herokuapp.com). Be sure to change membership & add spaces :)
+Hey Altspace Team! I chose to stay inside my comfort zone and build a "futuristic" HTML 5 administration app. [You can see it live](https://fierce-earth-2877.herokuapp.com). Be sure to change membership & add spaces :)
 
+### Main page
+![an image of the main home page](https://cloud.githubusercontent.com/assets/2587335/9207633/a2eca904-4023-11e5-8054-ec40a9353918.png)
+### Edit page
+![an image of the edit page](https://cloud.githubusercontent.com/assets/2587335/9207634/a44e07ca-4023-11e5-9adf-37ba99599b34.png)
 The JS file ends up being ~450kB.
 
 ## Local Setup
