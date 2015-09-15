@@ -21,15 +21,21 @@
   "Sets a key on the current space, used by the on-change events"
   (swap! current assoc-in [key] value))
 
+(defn valid [space]
+  (let [{:keys [text title]} space]
+    (and (not= "" text) (not= "" title))))
+
 ;; Actions
 (defn save [id]
   "Also known as update or add"
   (swap! current #(assoc % :members @current-members))
   (let [space @current]
-    (if (> id (apply max (map :id (:spaces @app-state))))
-      (md/add-space! space)
-      (md/update-space! space)))
-  (js/window.location.assign "#/"))
+    (if (valid space)
+      (if (> id (apply max (map :id (:spaces @app-state))))
+        (md/add-space! space)
+        (md/update-space! space)
+        (js/window.location.assign "#/"))
+      (js/alert "You need more things"))))
 
 (defn cancel []
   "Leave the page, all temp edits will be overwritten

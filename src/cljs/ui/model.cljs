@@ -30,8 +30,8 @@
   :members [{:id 0 :name "Admin Istrator"        :admin true  :gender "none"}
             {:id 1 :name "Nicholas van de Walle" :admin true  :gender "male"}
             {:id 2 :name "Cymatic Bruce"         :admin false :gender "male"}
-            {:id 3 :name "Ari"                   :admin false :gender "male"}
-            {:id 4 :name "Dana"                  :admin false :gender "female"}
+            {:id 4 :name "Ari"                   :admin false :gender "male"}
+            {:id 3 :name "Dana"                  :admin false :gender "female"}
             {:id 5 :name "Spock"                 :admin false :gender "male"}
             {:id 6 :name "Uhura"                 :admin false :gender "female"}
             {:id 7 :name "Kirk"                  :admin true  :gender "male"}
