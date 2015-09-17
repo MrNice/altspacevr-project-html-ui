@@ -1,14 +1,9 @@
 body {
   -webkit-font-smoothing: antialiased;
-  background-color: #000000;
-  color: #FFFFFF;
+  background-color: #f5f5f5;
+  /*color: #FFFFFF;*/
   /* only matters for small displays */
   margin: 0px 10px 0px 10px;
-}
-h1,
-h2,
-h3 {
-  color: #FFFFFF;
 }
 h1 {
   font-size: 2.5em;
@@ -40,8 +35,16 @@ a:hover {
   margin-left: 15px;
   font-size: 16px;
 }
-.member-icon {
-  margin: 8px;
+.page-title {
+  position: absolute;
+  font-size: 100px;
+  font-weight: 100;
+  text-align: center;
+  color: rgba(181, 181, 181, 1);
+  -webkit-text-rendering: optimizeLegibility;
+  -moz-text-rendering: optimizeLegibility;
+  text-rendering: optimizeLegibility;
+  rgb(13, 11, 17);
 }
 .descriptor {
   font-weight: 600;
@@ -53,8 +56,6 @@ a:hover {
 }
 .edit-delete-cancel-save .delete {
   flex: 1;
-  color: #c80000;
-  border-color: #c80000;
   border-width: 2px;
 }
 .edit-delete-cancel-save .aligner {
@@ -71,8 +72,6 @@ a:hover {
   margin-right: 10px;
 }
 .edit-delete-cancel-save .aligner .cancel-save .save {
-  color: #619df9;
-  border-color: #619df9;
   border-width: 2px;
 }
 .create {
@@ -84,10 +83,31 @@ a:hover {
   width: 600px;
 }
 .space {
-  border-width: thin;
-  border-style: solid;
-  border-radius: 3px;
-  border-color: #DDDDDD;
+  position: relative;
+  margin: 0;
+  width: 100%;
+  font-size: 24px;
+  font-family: inherit;
+  font-weight: inherit;
+  line-height: 1.4em;
+  border: 0;
+  outline: none;
+  color: inherit;
+  padding: 6px;
+  border: 1px solid #999;
+  box-shadow: inset 0 -1px 5px 0 rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+  padding: 16px 16px 16px 60px;
+  border: none;
+  background: rgba(0, 0, 0, 0.003);
+  box-shadow: inset 0 -2px 1px rgba(0,0,0,0.03);
+  background: #fff;
+  margin: 130px 0 40px 0;
+  position: relative;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
 }
 .space.starred {
   border-color: #b56f06;
@@ -106,10 +126,10 @@ a:hover {
   background-color: #FFFFFF;
 }
 .space .title.starred {
-  background-color: #ed930b;
+  /*background-color: #ed930b;*/
 }
 .space .title.public {
-  background-color: #9ee42b;
+  /*background-color: #9ee42b;*/
 }
 .space .title.private {
   background-color: #a7a7a7;

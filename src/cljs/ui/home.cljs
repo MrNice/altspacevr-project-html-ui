@@ -50,7 +50,7 @@
 
 (defn home-page []
   [container "home-page"
-    [:h1 "Notes"]
+    [:h1.page-title "Notes"]
     (interpose [gap :size "10px"] (map note (sort-notes (:spaces @app-state))))
     [gap :size "10px"]
     [h-box :align-self :center :children [
