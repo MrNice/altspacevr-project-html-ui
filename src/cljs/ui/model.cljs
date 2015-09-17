@@ -3,40 +3,29 @@
             [reagent.session :as session]))
 
 (defonce app-state (atom
- {:spaces [{:title   "Welcome Space"
+ {:spaces [{:title   "Buy cat food"
             :id      0
             :creator 0
-            :type    "welcome"
-            :members [1 4 2 3]
-            :text    "Welcome to Altspace! Use this space to get acquainted with the interface"}
-           {:title   "Nicholas's Hovel"
+            :type    "public"
+            :text    "Abbers really needs some new food"}
+           {:title   "Distributed Algorithms in TLA (Abstract)"
             :id      1
             :creator 1
             :type    "private"
-            :members [1]
-            :text    "This is where clojurescript junkies tend to fester"}
-           {:title   "Origin Featured Space"
+            :text    "TLA (the temporal logic of actions) is a simple logic for describing and reasoning about concurrent systems. It provides a uniform way of specifying algorithms and their correctness properties, as well as rules for proving that one specification satisfies another. TLA+ is a formal specification language based on TLA, and TLC is a model checker for TLA+ specifications. TLA+ and TLC have been used to specify and check high-level descriptions of real, complex systems. Because TLA+ provides the full power of ordinary mathematics, it permits simple, straightforward specifications of the kinds of algorithms presented at PODC. This tutorial will try to convince you to describe your algorithms in TLA+. You will then be able to check them with TLC and use TLA to prove their correctness as formally or informally as you want. (However, TLA proofs do have one disadvantage that is mentioned below.) The tutorial will describe TLA+ through examples and demonstrate how to use TLC. No knowledge of TLA is assumed. TLA does have the following disadvantages: It can describe only a real algorithm, not a vague, incomplete sketch of an algorithm. You can specify an algorithm's correctness condition in TLA only if you understand what the algorithm is supposed to do. TLA makes it harder to cover gaps in a proof with handwaving. Some researchers may find these drawbacks insurmountable."}
+           {:title   "Specifying and Verifying Fault-Tolerant Systems"
             :id      2
             :creator 7
-            :type    "standard"
-            :members [1 7 2 6 3]
-            :text    "Welcome to Altspace! Usasdfkhaksjdhfgkjashgdfjkhasdgfe this space to get acquainted with the interface"}
-           {:title   "USS Enterprise"
+            :type    "public"
+            :text    "Assertional verification of concurrent systems began almost twenty years ago with the work of Ashcroft [4]. By the early 1980’s, the basic principles of formal specification and verification of concurrent systems were known [10, 12, 19]. More precisely, we had learned how to specify and verify those aspects of a system that can be expressed as the correctness of an individual execution. Faulttolerant systems are just one class of concurrent systems; they require no special techniques. The most important problems that remain are in the realm of engineering, not science. Scientific ideas must be translated into engineering practice. We describe here what we believe to be a suitable framework for an engineering discipline of formal specification and verification."}
+           {:title   "The Slow Winter"
             :id      3
             :creator 9
-            :type    "featured"
-            :members [5 7 6 8]
-            :text    "To boldy go, where no man has gone before. Bacon ipsum dolor amet cupim pork chop ham hock kevin filet mignon flank prosciutto spare ribs porchetta tri-tip tail swine ham frankfurter meatball. Jerky alcatra hamburger, meatball kielbasa corned beef fatback pork loin shankle leberkas swine spare ribs pork chop picanha ham. Pork belly tail tenderloin short loin, picanha alcatra doner ball tip meatball filet mignon. Ribeye doner t-bone, kevin porchetta turducken tenderloin meatloaf pork prosciutto capicola tri-tip jerky alcatra shoulder.\nMeatball porchetta shoulder venison pastrami. Strip steak sausage swine drumstick tail boudin tri-tip ground round hamburger shank fatback pork chop cupim chuck. Bacon ground round pig beef ribs t-bone doner. Bresaola pastrami pancetta cow porchetta tenderloin kevin pig pork beef doner beef ribs. Cupim ball tip tongue shoulder, frankfurter pork chop salami. Tongue ball tip kevin, ground round strip steak shank capicola drumstick jowl tenderloin biltong."}]
+            :type    "starred"
+            :text    "According to my dad, flying in airplanes used to be fun. You could smoke on the plane, and smoking was actually good for you. Everybody was attractive, and there were no fees for anything, and there was so much legroom that you could orient your body parts in arbitrary and profane directions without bothering anyone, and you could eat caviar and manatee steak as you were showered with piles of money that were personally distributed by JFK and The Beach Boys. Times were good, assuming that you were a white man in the advertising business, WHICH MY FATHER WAS NOT SO PERHAPS I SHOULD ASK HIM SOME FOLLOW-UP QUESTIONS BUT I DIGRESS. The point is that flying in airplanes used to be fun, but now it resembles a dystopian bin-packing problem in which humans, carry-on luggage, and five dollar peanut bags compete for real estate while crying children materialize from the ether and make obscure demands in unintelligible, Wookie-like languages while you fantasize about who you won’t be helping when the oxygen masks descend."}]
   :members [{:id 0 :name "Admin Istrator"        :admin true  :gender "none"}
             {:id 1 :name "Nicholas van de Walle" :admin true  :gender "male"}
-            {:id 2 :name "Cymatic Bruce"         :admin false :gender "male"}
-            {:id 4 :name "Ari"                   :admin false :gender "male"}
-            {:id 3 :name "Dana"                  :admin false :gender "female"}
-            {:id 5 :name "Spock"                 :admin false :gender "male"}
-            {:id 6 :name "Uhura"                 :admin false :gender "female"}
-            {:id 7 :name "Kirk"                  :admin true  :gender "male"}
-            {:id 8 :name "Scottie"               :admin false :gender "male"}
-            {:id 9 :name "Matt Jeffries"         :admin true  :gender "male"}]}))
+            {:id 9 :name "James Mickens"         :admin false  :gender "male"}]}))
 
 ;; Queries
 (defn get-member [id]

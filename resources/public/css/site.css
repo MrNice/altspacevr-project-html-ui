@@ -88,12 +88,11 @@ a:hover {
   border-style: solid;
   border-radius: 3px;
   border-color: #DDDDDD;
-  /** Button Classes **/
 }
-.space.featured {
+.space.starred {
   border-color: #b56f06;
 }
-.space.welcome {
+.space.public {
   border-color: #6f9f1e;
 }
 .space.private {
@@ -106,10 +105,10 @@ a:hover {
   color: #333333;
   background-color: #FFFFFF;
 }
-.space .title.featured {
+.space .title.starred {
   background-color: #ed930b;
 }
-.space .title.welcome {
+.space .title.public {
   background-color: #9ee42b;
 }
 .space .title.private {

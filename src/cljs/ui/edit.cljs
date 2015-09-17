@@ -21,21 +21,20 @@
   "Sets a key on the current space, used by the on-change events"
   (swap! current assoc-in [key] value))
 
-(defn valid [space]
-  (let [{:keys [text title]} space]
+(defn valid [note]
+  "Validate that a note has contents before saving it"
+  (let [{:keys [text title]} note]
     (and (not= "" text) (not= "" title))))
 
 ;; Actions
 (defn save [id]
-  "Also known as update or add"
+  "Also known as update-or-add"
   (swap! current #(assoc % :members @current-members))
   (let [space @current]
-    (if (valid space)
-      (if (> id (apply max (map :id (:spaces @app-state))))
-        (md/add-space! space)
-        (md/update-space! space)
-        (js/window.location.assign "#/"))
-      (js/alert "You need more things"))))
+    (if (> id (apply max (map :id (:spaces @app-state))))
+      (md/add-space! space)
+      (md/update-space! space))
+    (js/window.location.assign "#/")))
 
 (defn cancel []
   "Leave the page, all temp edits will be overwritten
@@ -86,7 +85,7 @@
      [[box   :size "1" :child [:div]]
       [v-box :size "6" :children
         (interpose [gap :size "15px"]
-          (map (partial space-type value) ["welcome" "featured" "standard" "private"]))]]]))
+          (map (partial space-type value) ["public" "starred" "private"]))]]]))
 
 (defn edit-page []
   (let [creating (session/get :creating)
@@ -95,11 +94,10 @@
     (let [{:keys [id title creator text members type]} space]
       [container "edit-page"
        (interpose [gap :size "20px"] [
-        [:h1 (str "Altspace Spaces Admin - " (if-not (= title "") title "New Space"))]
+        [:h1 (str (if-not (= title "") title "New Note:"))]
         [edit-line "Title" title :title]
-        [edit-box "Description" text :text]
-        [space-type-selector type]
-        [member-selector "Members"]
+        [space-type-selector]
+        [edit-box "Content" text :text]
         (if (md/auth (session/get :current-user))
           [h-box :class "edit-delete-cancel-save" :justify :between :children [
             [:div.delete

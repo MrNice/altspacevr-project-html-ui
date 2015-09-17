@@ -20,47 +20,38 @@
     (for [para (s/split string "\n")]
     ^{:key para} [:p para])])
 
-(defn space-weight [space]
+(defn note-weight [space]
   "Control how spaces are sorted, based on type
    Welcome > Featured > Else"
   (let [{:keys [type]} space]
-    (cond (= "welcome" type) 0
-          (= "featured" type) 1
+    (cond (= "starred" type) 0
           :else 2)))
 
-(def sort-spaces (partial sort-by space-weight))
+(def sort-notes (partial sort-by note-weight))
 
 ;; Views
-(defn member-icon [id]
-  (let [member (md/get-member id)]
-    [:img {:alt name
-           :src (str "http://eightbitavatar.herokuapp.com/?id=" (:name member) "&s=" (:gender member) "&size=48")}]))
+(defn note-title [type title]
+  [:span {:class (str "title " type)} [:span.name title]])
 
-(defn space-title [type title creatorid]
-  (let [creator (:name (md/get-member creatorid))]
-    [:span {:class (str "title " type)} [:span.name title] [:span (str "created by " creator)]]))
-
-(defn space-component [{:keys [id title creator text members type]} space]
+(defn note [{:keys [id title creator text members type]} space]
   [v-box :class (str "space " type) :align-self :stretch :children [
-    [space-title type title creator]
+    [note-title type title creator]
     [format-text text]
-    [h-box :justify :between :children [
-      [:div.icons [:span "Current Members: "] (map member-icon members)]
-      [:div
-        [md-circle-icon-button
-          :md-icon-name "md-delete"
-          :on-click #(delete id)
-          :class "abtn delete"]
-        [md-circle-icon-button
-          :md-icon-name "md-edit"
-          :on-click #(edit id)
-          :class "abtn edit"
-          :size :larger]]]]]])
+    [:div
+      [md-circle-icon-button
+        :md-icon-name "md-delete"
+        :on-click #(delete id)
+        :class "abtn delete"]
+      [md-circle-icon-button
+        :md-icon-name "md-edit"
+        :on-click #(edit id)
+        :class "abtn edit"
+        :size :larger]]]])
 
 (defn home-page []
   [container "home-page"
-    [:h1 "Altspace Spaces Admin"]
-    (interpose [gap :size "10px"] (map space-component (sort-spaces (:spaces @app-state))))
+    [:h1 "Notes"]
+    (interpose [gap :size "10px"] (map note (sort-notes (:spaces @app-state))))
     [gap :size "10px"]
-    [h-box :align-self :end :children [
+    [h-box :align-self :center :children [
       [md-circle-icon-button :md-icon-name "md-add" :size :larger :on-click create :class "create"]]]])
