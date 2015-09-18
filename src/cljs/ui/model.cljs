@@ -56,11 +56,12 @@
 
 ;; Constructors
 (defn make-space []
- {:id (inc (apply max (map :id (:spaces @app-state))))
-  :text ""
-  :title "untitld" ; For aesthetic purposes
-  :type "public"
-  :editing true})
+  (let [id (if (= 0 (count (:space @app-state))) 0 (gen-space-id (:spaces @app-state)))]
+   {:id id
+    :text ""
+    :title "untitld" ; For aesthetic purposes
+    :type "public"
+    :editing true}))
 
 ;; Mutations
 (defn add-space! [space]

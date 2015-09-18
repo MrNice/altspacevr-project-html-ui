@@ -1,10 +1,10 @@
 (ns ui.home
   (:require [reagent.core :refer [atom]]
             [clojure.string :as s]
-            [re-com.core    :refer [h-box v-box box gap md-circle-icon-button]]
+            [re-com.core :refer [h-box v-box box gap md-circle-icon-button]]
             [ui.model :as md :refer [app-state]]
-            [ui.common :refer [container]]
-            [ui.edit   :refer [delete edit-page]]))
+            [ui.edit   :refer [delete edit-page]]
+            [ui.common :refer [container]]))
 
 ;; Actions
 (defn edit [space]

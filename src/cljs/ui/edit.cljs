@@ -25,7 +25,7 @@
   (js/window.location.assign "#/"))
 
 ;; EDIT PAGE
-(defn edit-line [space label value key]
+(defn edit-line [space value key]
   [h-box :children [
     [box :size "6" :child
       [input-text :model value
@@ -33,19 +33,27 @@
                   :on-change #(set-space-value! key % space)]]]])
 
 (defn edit-box
-  [space label value key rows & [sanitizer]]
+  [space value key rows & [sanitizer]]
     [h-box :children [
       [box :size "6" :child
         [input-textarea :model value :rows (if rows rows 3) :class "editor"
           :on-change #(set-space-value! key ((or sanitizer identity) %) space)]]]])
 
-(defn space-type [space value t]
+(defn note-type [space value t]
   (radio-button :model t :label (s/capitalize t) :value value :on-change #(set-space-value! :type t space)))
 
-(defn space-type-selector [space value]
+(defn note-type-selector [space value]
   [h-box :children [
     [v-box :size "6" :children
-      (map (partial space-type space value) ["public" "starred" "private"])]]])
+      (map (partial note-type space value) ["public" "starred" "private"])]]])
+
+(defn buttons [space]
+  [h-box :class "edit-delete-cancel-save" :justify :between :children [
+    [:div.delete
+      [md-circle-icon-button :md-icon-name "md-delete" :size :larger :on-click #(delete space) :class "abtn delete"]]
+    [:div.aligner
+      [:div.cancel-save
+        [md-circle-icon-button :md-icon-name "md-save"   :size :larger :on-click #(save space) :class "abtn save"]]]]])
 
 (defn edit-page [note]
   (let [space note]
@@ -53,14 +61,8 @@
       [container "edit-page"
        (interpose [gap :size "10px"] [
         [:h4 "Title"]
-        [edit-line space "Title" title :title]
+        [edit-line space title :title]
         [:h4 "type"]
-        [space-type-selector space type]
-        [edit-box space "Content" text :text]
-          [h-box :class "edit-delete-cancel-save" :justify :between :children [
-            [:div.delete
-              (if-not (:new space)
-                [md-circle-icon-button :md-icon-name "md-delete" :size :larger :on-click #(delete space) :class "abtn delete"])]
-            [:div.aligner
-              [:div.cancel-save
-                [md-circle-icon-button :md-icon-name "md-save"   :size :larger :on-click #(save space) :class "abtn save"]]]]]])])))
+        [note-type-selector space type]
+        [edit-box space text :text]
+        [buttons space]])])))
