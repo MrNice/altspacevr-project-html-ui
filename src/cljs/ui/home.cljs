@@ -4,15 +4,16 @@
             [re-com.core    :refer [h-box v-box box gap md-circle-icon-button]]
             [ui.model :as md :refer [app-state]]
             [ui.common :refer [container]]
-            [ui.edit   :refer [delete]]))
+            [ui.edit   :refer [delete edit-page]]))
 
 ;; Actions
-(defn edit [id]
-  (let [url (str "#/edit/" id)]
+(defn edit [space]
+  (let [url (str "#/edit/" (:id space))]
+    (md/update-space! (conj space {:editing true}))
     (js/window.location.assign url)))
 
 (defn create []
-  (js/window.location.assign "#/create"))
+  (md/add-space! (md/make-space)))
 
 ;; View Helpers
 (defn format-text [string]
@@ -33,25 +34,34 @@
 (defn note-title [type title]
   [:span {:class (str "title " type)} [:span.name title]])
 
-(defn note [{:keys [id title creator text members type]} space]
-  [v-box :class (str "space " type) :align-self :stretch :children [
-    [note-title type title creator]
-    [format-text text]
+(defn note [space]
+  (let [{:keys [id title creator text members type]} space]
     [:div
-      [md-circle-icon-button
-        :md-icon-name "md-delete"
-        :on-click #(delete id)
-        :class "abtn delete"]
-      [md-circle-icon-button
-        :md-icon-name "md-edit"
-        :on-click #(edit id)
-        :class "abtn edit"
-        :size :larger]]]])
+      [h-box :justify :between :children [
+        [note-title type title creator]
+        [:div.buttons
+          [md-circle-icon-button
+            :md-icon-name "md-delete"
+            :on-click #(delete space)
+            :class "abtn delete"]
+          [md-circle-icon-button
+            :md-icon-name "md-edit"
+            :on-click #(edit space)
+            :class "abtn edit"]]]]
+      [format-text text]]))
+
+(defn note-card [space]
+  "Determines whether or not to render current note as and edit pane"
+  [v-box :class (str "space " type) :align-self :stretch :children [
+    (if (:editing space)
+      [edit-page space]
+      [note space])]])
 
 (defn home-page []
   [container "home-page"
-    [:h1.page-title "Notes"]
-    (interpose [gap :size "10px"] (map note (sort-notes (:spaces @app-state))))
+    [:h1.page-title "notes:"]
+    (interpose [gap :size "10px"] (map note-card (sort-notes (:spaces @app-state))))
     [gap :size "10px"]
     [h-box :align-self :center :children [
-      [md-circle-icon-button :md-icon-name "md-add" :size :larger :on-click create :class "create"]]]])
+      [:div.create-tab
+        [md-circle-icon-button :md-icon-name "md-add" :size :larger :on-click create :class "abtn create"]]]]])

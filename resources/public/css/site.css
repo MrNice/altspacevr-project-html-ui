@@ -1,7 +1,6 @@
 body {
   -webkit-font-smoothing: antialiased;
   background-color: #f5f5f5;
-  /*color: #FFFFFF;*/
   /* only matters for small displays */
   margin: 0px 10px 0px 10px;
 }
@@ -26,17 +25,7 @@ a:hover {
   max-width: 1024px;
   padding: 0px;
 }
-.icons img {
-  border-radius: 24px;
-  margin: 8px;
-  margin-right: 0px;
-}
-.icons span {
-  margin-left: 15px;
-  font-size: 16px;
-}
 .page-title {
-  position: absolute;
   font-size: 100px;
   font-weight: 100;
   text-align: center;
@@ -66,48 +55,38 @@ a:hover {
   display: flex;
   justify-content: flex-end;
 }
-.edit-delete-cancel-save .aligner .cancel-save .cancel {
-  border-width: 2px;
-  margin-left: 10px;
-  margin-right: 10px;
+.create-tab {
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  padding-left: 60px;
+  padding-right: 60px;
+  background: rgb(250, 250, 250);
+  margin-bottom: 10px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
 }
-.edit-delete-cancel-save .aligner .cancel-save .save {
-  border-width: 2px;
-}
+/* Cancel out other css */
 .create {
-  color: #16e443;
-  border-color: #16e443;
-  border-width: 2px;
+  border-style: none;
+  color: rgb(71, 71, 71)
+}
+.create:hover {
+  border-style: none;
 }
 .editor {
   width: 600px;
 }
 .space {
-  position: relative;
-  margin: 0;
+  line-height: 2rem;
+
   width: 100%;
-  font-size: 24px;
-  font-family: inherit;
-  font-weight: inherit;
-  line-height: 1.4em;
-  border: 0;
-  outline: none;
-  color: inherit;
-  padding: 6px;
-  border: 1px solid #999;
-  box-shadow: inset 0 -1px 5px 0 rgba(0, 0, 0, 0.2);
-  box-sizing: border-box;
-  -webkit-font-smoothing: antialiased;
-  -moz-font-smoothing: antialiased;
-  font-smoothing: antialiased;
-  padding: 16px 16px 16px 60px;
   border: none;
-  background: rgba(0, 0, 0, 0.003);
-  box-shadow: inset 0 -2px 1px rgba(0,0,0,0.03);
+  padding: 16px 16px 16px 16px;
+  margin-bottom: 10px;
   background: #fff;
-  margin: 130px 0 40px 0;
-  position: relative;
+  overflow-x: hidden;
+  box-sizing: border-box;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
+  -webkit-font-smoothing: antialiased;
 }
 .space.starred {
   border-color: #b56f06;
@@ -120,38 +99,39 @@ a:hover {
 }
 .space .title {
   font-weight: 500;
-  padding: 10px;
-  padding-left: 15px;
   color: #333333;
-  background-color: #FFFFFF;
+  margin: 10px;
 }
 .space .title.starred {
-  /*background-color: #ed930b;*/
 }
 .space .title.public {
-  /*background-color: #9ee42b;*/
 }
 .space .title.private {
-  background-color: #a7a7a7;
 }
 .space .title .name {
-  font-size: 16px;
-  padding-right: 5px;
+  font-size: 24px;
 }
 .space .space-text {
-  padding: 15px;
   margin: 0px;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-bottom: 10px;
+  font-size: 1.4rem;
+}
+.space .buttons {
+  height: 40px;
 }
 .space .abtn {
-  margin: 15px;
-  margin-left: 0px;
+  margin-left: 10px;
   display: inline-block;
-  border-width: 2px;
+  background-color: rgb(250, 250, 250);
+  border-width: 0px;
+  border-radius: 6px;
+  box-shadow: inset 0px 0px 1px 0px rgba(115,115,115,1);
 }
 .space .abtn.edit {
-  color: #ffffff;
+  color: rgb(94, 94, 94);
 }
 .space .abtn.delete {
-  color: #c80000;
-  border-color: #c80000;
+  color: rgb(222, 51, 51);
 }

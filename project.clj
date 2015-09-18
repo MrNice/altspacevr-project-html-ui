@@ -1,5 +1,5 @@
 (defproject ui "0.1.0-SNAPSHOT"
-  :description "A toy user interface to prove to Altspace VR I can javascript"
+  :description "Note taking application for zenefits"
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
@@ -8,6 +8,7 @@
 
   :dependencies [[org.clojure/clojure "1.7.0"]
                  [ring-server "0.4.0"]
+                 [alandipert/storage-atom "1.2.4"]
                  [cljsjs/react "0.13.3-1"]
                  [reagent "0.5.0"]
                  [reagent-forms "0.5.5"]

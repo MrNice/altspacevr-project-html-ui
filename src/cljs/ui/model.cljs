@@ -1,8 +1,8 @@
 (ns ui.model
   (:require [reagent.core :refer [atom]]
-            [reagent.session :as session]))
+            [alandipert.storage-atom :refer [local-storage]]))
 
-(defonce app-state (atom
+(defonce app-state (local-storage (atom
  {:spaces [{:title   "Buy cat food"
             :id      0
             :creator 0
@@ -23,13 +23,17 @@
             :creator 9
             :type    "starred"
             :text    "According to my dad, flying in airplanes used to be fun. You could smoke on the plane, and smoking was actually good for you. Everybody was attractive, and there were no fees for anything, and there was so much legroom that you could orient your body parts in arbitrary and profane directions without bothering anyone, and you could eat caviar and manatee steak as you were showered with piles of money that were personally distributed by JFK and The Beach Boys. Times were good, assuming that you were a white man in the advertising business, WHICH MY FATHER WAS NOT SO PERHAPS I SHOULD ASK HIM SOME FOLLOW-UP QUESTIONS BUT I DIGRESS. The point is that flying in airplanes used to be fun, but now it resembles a dystopian bin-packing problem in which humans, carry-on luggage, and five dollar peanut bags compete for real estate while crying children materialize from the ether and make obscure demands in unintelligible, Wookie-like languages while you fantasize about who you won’t be helping when the oxygen masks descend."}]
-  :members [{:id 0 :name "Admin Istrator"        :admin true  :gender "none"}
-            {:id 1 :name "Nicholas van de Walle" :admin true  :gender "male"}
-            {:id 9 :name "James Mickens"         :admin false  :gender "male"}]}))
+  :members [{:id 0 :name "Admin Istrator"        :admin true   :gender "none"}
+            {:id 1 :name "Nicholas van de Walle" :admin true   :gender "male"}
+            {:id 9 :name "James Mickens"         :admin false  :gender "male"}]})
+  :app-state))
 
 ;; Queries
-(defn get-member [id]
-  (first (filter #(= id (:id %)) (:members @app-state))))
+(defn get-by-id [key id]
+  (first (filter #(= id (:id %)) (key @app-state))))
+
+(def get-member (partial get-by-id :members))
+(def get-space (partial get-by-id :spaces))
 
 ;; Helpers
 (defn positions
@@ -54,10 +58,9 @@
 (defn make-space []
  {:id (inc (apply max (map :id (:spaces @app-state))))
   :text ""
-  :title ""
-  :members []
-  :type "standard"
-  :creator (session/get :current-user)})
+  :title "untitld" ; For aesthetic purposes
+  :type "public"
+  :editing true})
 
 ;; Mutations
 (defn add-space! [space]
@@ -77,3 +80,6 @@
 (defn remove-space! [id]
   "filter the space out by id"
   (swap! app-state assoc-in [:spaces] (filterv #(not= id (:id %)) (:spaces @app-state))))
+
+(defn set-editing! [value id]
+  (update-space! (conj (get-space (int id)) {:editing value})))
