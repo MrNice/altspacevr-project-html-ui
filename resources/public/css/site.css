@@ -45,7 +45,6 @@ a:hover {
 }
 .edit-delete-cancel-save .delete {
   flex: 1;
-  border-width: 2px;
 }
 .edit-delete-cancel-save .aligner {
   flex: 6;
@@ -72,17 +71,6 @@ a:hover {
 .create:hover {
   border-style: none;
 }
-@media screen and (max-width: 400px) {
-  .editor {
-    width: 350px;
-  }
-}
-@media screen and (max-width: 1024px) {
-  .editor {
-    flex: auto;
-  }
-}
-
 .note-type {
   cursor: pointer;
 }
@@ -120,10 +108,22 @@ a:hover {
 }
 .space-text {
   margin: 0px;
-  padding-left: 30px;
-  padding-right: 30px;
   padding-bottom: 10px;
-  font-size: 1.4rem;
+}
+@media screen and (max-width: 412px) {
+  .space-text {
+    font-size: 1rem;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+@media screen and (min-width: 413px) {
+  .space-text {
+    font-size: 1.4rem;
+    line-height: 1.8em;
+    padding-left: 30px;
+    padding-right: 30px;
+  }
 }
 .buttons {
   min-width: 100px;
