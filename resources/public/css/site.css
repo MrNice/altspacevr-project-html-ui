@@ -51,16 +51,16 @@ a:hover {
   flex: 6;
 }
 .edit-delete-cancel-save .aligner .cancel-save {
-  max-width: 600px;
   display: flex;
   justify-content: flex-end;
 }
 .create-tab {
+  cursor: pointer;
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
   padding-left: 60px;
   padding-right: 60px;
-  background: rgb(250, 250, 250);
+  background: rgb(145, 218, 138);
   margin-bottom: 10px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
 }
@@ -72,12 +72,22 @@ a:hover {
 .create:hover {
   border-style: none;
 }
-.editor {
-  width: 600px;
+@media screen and (max-width: 400px) {
+  .editor {
+    width: 350px;
+  }
+}
+@media screen and (max-width: 1024px) {
+  .editor {
+    flex: auto;
+  }
+}
+
+.note-type {
+  cursor: pointer;
 }
 .space {
   line-height: 2rem;
-
   width: 100%;
   border: none;
   padding: 16px 16px 16px 16px;
@@ -88,50 +98,48 @@ a:hover {
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
   -webkit-font-smoothing: antialiased;
 }
-.space.starred {
+.starred {
   border-color: #b56f06;
+  background-color: rgb(250,242,173);
 }
-.space.public {
-  border-color: #6f9f1e;
+.public {
+  border-color: #d6eeae;
+  background-color: #FFF;
 }
-.space.private {
-  border-color: #7a7a7a;
+.private {
+  border-color: rgba(#7a7a7a, 0.43);
+  background-color: #ececec;
 }
-.space .title {
+.title {
   font-weight: 500;
   color: #333333;
   margin: 10px;
 }
-.space .title.starred {
-}
-.space .title.public {
-}
-.space .title.private {
-}
-.space .title .name {
+.name {
   font-size: 24px;
 }
-.space .space-text {
+.space-text {
   margin: 0px;
   padding-left: 30px;
   padding-right: 30px;
   padding-bottom: 10px;
   font-size: 1.4rem;
 }
-.space .buttons {
-  height: 40px;
+.buttons {
+  min-width: 100px;
 }
-.space .abtn {
+.abtn {
+  cursor: pointer;
   margin-left: 10px;
   display: inline-block;
-  background-color: rgb(250, 250, 250);
+  background-color: rgba(250, 250, 250, 0.70);
   border-width: 0px;
   border-radius: 6px;
   box-shadow: inset 0px 0px 1px 0px rgba(115,115,115,1);
 }
-.space .abtn.edit {
+.edit {
   color: rgb(94, 94, 94);
 }
-.space .abtn.delete {
+.delete {
   color: rgb(222, 51, 51);
 }

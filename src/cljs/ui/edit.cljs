@@ -30,20 +30,25 @@
     [box :size "6" :child
       [input-text :model value
                   :class "editor"
+                  :width "calc(100%)"
                   :on-change #(set-space-value! key % space)]]]])
 
 (defn edit-box
   [space value key rows & [sanitizer]]
     [h-box :children [
       [box :size "6" :child
-        [input-textarea :model value :rows (if rows rows 3) :class "editor"
-          :on-change #(set-space-value! key ((or sanitizer identity) %) space)]]]])
+        [input-textarea :model value
+                        :rows (if rows rows 3)
+                        :width "calc(100%)"
+                        :height "400px"
+                        :class "editor"
+                        :on-change #(set-space-value! key ((or sanitizer identity) %) space)]]]])
 
 (defn note-type [space value t]
   (radio-button :model t :label (s/capitalize t) :value value :on-change #(set-space-value! :type t space)))
 
 (defn note-type-selector [space value]
-  [h-box :children [
+  [h-box :class "note-type" :children [
     [v-box :size "6" :children
       (map (partial note-type space value) ["public" "starred" "private"])]]])
 

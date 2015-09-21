@@ -7,7 +7,7 @@
             :id      0
             :creator 0
             :type    "public"
-            :text    "Abbers really needs some new food"}
+            :text    "Abbers really needs some new food. Should pick some up at the grocery store next week. I'll have Alexa add it to my other todo list, and then finally I'll write the adapter to sync this site with google keep's API's, and then into gcal."}
            {:title   "Distributed Algorithms in TLA (Abstract)"
             :id      1
             :creator 1

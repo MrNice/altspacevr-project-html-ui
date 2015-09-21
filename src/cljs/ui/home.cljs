@@ -31,14 +31,14 @@
 (def sort-notes (partial sort-by note-weight))
 
 ;; Views
-(defn note-title [type title]
-  [:span {:class (str "title " type)} [:span.name title]])
+(defn note-title [title]
+  [:span {:class (str "title" )} [:span.name title]])
 
 (defn note [space]
   (let [{:keys [id title creator text members type]} space]
     [:div
       [h-box :justify :between :children [
-        [note-title type title creator]
+        [note-title title creator]
         [:div.buttons
           [md-circle-icon-button
             :md-icon-name "md-delete"
@@ -52,7 +52,7 @@
 
 (defn note-card [space]
   "Determines whether or not to render current note as and edit pane"
-  [v-box :class (str "space " type) :align-self :stretch :children [
+  [v-box :class (str "space " (:type space)) :align-self :stretch :children [
     (if (:editing space)
       [edit-page space]
       [note space])]])
@@ -63,5 +63,5 @@
     (interpose [gap :size "10px"] (map note-card (sort-notes (:spaces @app-state))))
     [gap :size "10px"]
     [h-box :align-self :center :children [
-      [:div.create-tab
-        [md-circle-icon-button :md-icon-name "md-add" :size :larger :on-click create :class "abtn create"]]]]])
+      [:div.create-tab {:on-click create}
+        [md-circle-icon-button :md-icon-name "md-add" :size :larger :class "create"]]]]])

@@ -24,9 +24,12 @@
                  [org.clojure/clojurescript "0.0-3308" :scope "provided"]
                  [secretary "1.2.3"]]
 
+  :dev-dependencies [[lein-ring "0.5.4"]]
+
   :plugins [[lein-environ "1.0.0"]
             [lein-less "1.7.5"]
-            [lein-asset-minifier "0.2.2"]]
+            [lein-asset-minifier "0.2.2"]
+            [lein-ring "0.5.4"]]
 
   :ring {:handler ui.handler/app
          :uberwar-name "ui.war"}
@@ -51,7 +54,7 @@
   :cljsbuild {:builds {:app {:source-paths ["src/cljs"]
                              :compiler {:output-to     "resources/public/js/app.js"
                                         :output-dir    "resources/public/js/out"
-                                        :asset-path   "js/out"
+                                        :asset-path    "js/out"
                                         :optimizations :none
                                         :pretty-print  true}}}}
 
