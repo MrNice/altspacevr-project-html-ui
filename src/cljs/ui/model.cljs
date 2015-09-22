@@ -48,7 +48,9 @@
 ;; TODO (Nicholas): cache this value, have it only be computed once
 (defn gen-space-id [spaces]
   "Give us the next available space ID"
-  (inc (apply max (map :id spaces))))
+  (if (= 1 (count spaces))
+    0
+    (inc (apply max (map :id spaces)))))
 
 (defn auth [id]
   "Is this member an administrator?"
@@ -67,8 +69,7 @@
 (defn add-space! [space]
   "Add an ID 1 higher than the current max space id,
    and put it at the end of :spaces"
-  (let [to-save (assoc space :id (gen-space-id (:spaces @app-state)))]
-    (swap! app-state assoc-in [:spaces] (conj (:spaces @app-state) to-save))))
+  (swap! app-state assoc-in [:spaces] (conj (:spaces @app-state) space)))
 
 (defn update-space! [space]
   "Saves the current temp space into the DB atom
